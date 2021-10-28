@@ -1,1 +1,1 @@
-# upSparing-typescript
+# upSpring-typescript
