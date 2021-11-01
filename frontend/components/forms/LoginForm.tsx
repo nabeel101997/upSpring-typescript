@@ -26,9 +26,11 @@ function LoginForm() {
   const mutation = useMutation((newLogin: LoginData) => userLogin(newLogin), { mutationKey: "login" });
   const { data, isLoading, isError, error, isSuccess } = mutation;
   toast(data?.message);
+  // toast(isLoading ? "Loading" : " ");
   if (data?.status === 200) {
     window.localStorage.setItem("accessToken", data?.accessToken);
     router.push('/home');
+    router.reload();
   }
 
   function submitHandler(values: LoginData) {

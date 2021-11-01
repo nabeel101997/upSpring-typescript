@@ -36,6 +36,20 @@ export const getProfile = async () => {
   return data;
 }
 
+export const getUsers = async () => {
+  const token = localStorage.getItem('accessToken');
+  var headers = {
+    'Content-type': 'application/json',
+    'token': 'Bearer ' + token
+  }
+  const response = await fetch('http://localhost:8080/users', {
+    method: 'GET',
+    headers: headers
+  });
+  const data = await response.json();
+  return data;
+}
+
 export const addRecord = async (enteredMeetupData: EnteredData) => {
   const response = await fetch('http://localhost:8080/users', {
     method: 'POST',

@@ -1,47 +1,66 @@
-import { Fragment, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { Fragment, useEffect } from 'react';
+import { useUser, useRole } from '../../contexts/user-context'
+import Router from 'next/router';
 import MainNavigation from './MainNavigation';
 import classes from './Layout.module.css';
 
 function Layout(props: any) {
 
-  const publicRoutes = ["/", "/login"]
-  const [data, setData] = useState(null);
-  const router = useRouter();
+  const publicRoutes = ["/", "/signup"]
   const successStatus = 200;
+  const { user, setUser } = useUser()
+  const { role, setRole } = useRole()
 
   useEffect(() => {
-    if (!data) {
-      const user = getUser().then(async (userData) => {
-        return await userData;
-      });
-
+    if (!user) {
+      getProfile()
+      getRoles()
     }
-  },)
-  const getUser = async () => {
+  }, [user])
+
+  const getProfile = async () => {
     const token = localStorage.getItem('accessToken');
-    const headers = {
+    var headers = {
       'Content-type': 'application/json',
       'token': 'Bearer ' + token
     }
-    const userData = await fetch('http://localhost:8080/users/dashboard', {
+    const response = await fetch('http://localhost:8080/users/dashboard', {
       method: 'GET',
       headers: headers
     });
-    const userDataRes = await userData.json();
-    // if (userDataRes.status === successStatus) {
-    //   if (publicRoutes.includes(router.pathname)) {
-    //     router.push("/home")
-    //   }
-    // } else {
-    //   router.push("/")
-    // }
-    return userDataRes;
+    const data = await response.json();
+    if (data.status === successStatus) {
+      console.log("User", data)
+      setUser(data)
+      if (publicRoutes.includes(Router.pathname)) {
+        Router.push("/home")
+
+
+      }
+    }
+    else
+      Router.push('/')
+  }
+
+  const getRoles = async () => {
+    const token = localStorage.getItem('accessToken');
+    var headers = {
+      'Content-type': 'application/json',
+      'token': 'Bearer ' + token
+    }
+    const response = await fetch('http://localhost:8080/assign/current-user', {
+      method: 'GET',
+      headers: headers
+    });
+    const data = await response.json();
+
+    console.log("Roles", data)
+    setRole(data)
   }
 
   return (
     <Fragment>
-      <MainNavigation data={data} />
+      <MainNavigation />
       <main className={classes.main}>{props.children}</main>
     </Fragment>
   );

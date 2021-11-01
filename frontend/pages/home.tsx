@@ -1,14 +1,14 @@
 import React from 'react';
-import { useQuery } from 'react-query';
-import { getProfile } from '../queries';
 import Dashboard from '../components/pages/Dashboard';
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '../contexts/user-context';
 
 function Home() {
-  const { data } = useQuery('profile', getProfile)
-
+  const { user } = useUser()
   return (
-    <Dashboard records={data?.data} />
+    <>
+      {user ? <Dashboard user={user} /> : <h1>Loading...</h1>}
+    </>
   )
 }
 

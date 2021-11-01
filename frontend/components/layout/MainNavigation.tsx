@@ -1,18 +1,19 @@
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import Link from 'next/link';
+
+import { useUser } from '../../contexts/user-context';
 import classes from './MainNavigation.module.css';
 
+const MainNavigation = (props: any) => {
 
+  const { user, setUser } = useUser()
 
-const MainNavigation = (props:any) => {
-  const data = props?.data?.firstName;
-  console.log(data);
-  const router = useRouter();
   const logoutHandler = () => {
     window.localStorage.clear();
-    props.setData(null);
-    router.push('/login')
+    setUser(props.initialUser)
+    Router.replace('/');
   }
+
   return (
     <header className={classes.header}>
       <Link href='/'>
@@ -20,23 +21,26 @@ const MainNavigation = (props:any) => {
       </Link>
       <nav>
         <ul>
-          {!data && (
+          {!user && (
             <>
               <li>
-                <Link href='/'>
+                <Link href='/signup'>
                   <a><h5>Register</h5></a>
                 </Link>
               </li>
               <li>
-                <a href='/login'><h5>Login</h5></a>
+                <a href='/'><h5>Login</h5></a>
               </li>
             </>
           )}
 
-          {data && (
+          {user && (
             <>
               <li>
                 <a href='/dashboard'>Dashboard</a>
+              </li>
+              <li>
+                <a href='/users'>users</a>
               </li>
               <li>
                 <button onClick={logoutHandler}>Logout</button>

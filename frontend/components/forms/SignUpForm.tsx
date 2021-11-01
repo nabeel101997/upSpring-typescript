@@ -45,10 +45,10 @@ function SignUpForm() {
   const { data, isLoading, isError, error, isSuccess } = mutation;
   toast(data?.message);
   if (data?.status === 201) {
-    router.push('/login')
+    router.push('/')
   }
 
-  function submitHandler(values:EnteredData) {
+  function submitHandler(values: EnteredData) {
     const meetupData = {
       firstName: values.firstName,
       lastName: values.lastName,
@@ -57,6 +57,7 @@ function SignUpForm() {
 
     };
     mutation.mutate(meetupData);
+  
   }
 
   const validate = Yup.object().shape({
@@ -95,7 +96,7 @@ function SignUpForm() {
               <TextField type="password" name="password" />
             </div>
             <div className={classes.actions}>
-              <button disabled={!formik.isValid}>Sign up</button>
+              <button type='submit' disabled={!formik.isValid}>Sign up</button>
             </div>
             <div className={classes.display}>
               <h4 className={classes.h4}>Already have an Account?</h4>

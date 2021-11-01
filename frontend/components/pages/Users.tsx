@@ -1,9 +1,11 @@
 import { useQueryClient, useMutation } from 'react-query';
-import classes from './Dashboard.module.css';
+import classes from './Users.module.css';
 import swal from 'sweetalert';
 
 
 function Dashboard(props: any) {
+  const data = props.users;
+  console.log(data);
   const queryClient = useQueryClient();
   function editHandler(record: any) {
     props.editRecod({
@@ -56,7 +58,7 @@ function Dashboard(props: any) {
           </tr>
         </thead>
         <tbody>
-          {props.records?.map((record: any) => (
+          {props?.users?.users.map((record: any) => (
             <tr key={record._id}>
               <td className={classes.td}>{record.name}</td>
               <td className={classes.td}>{record.role}</td>
