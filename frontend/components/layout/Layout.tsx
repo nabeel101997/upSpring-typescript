@@ -9,7 +9,7 @@ function Layout(props: any) {
   const publicRoutes = ["/", "/signup"]
   const successStatus = 200;
   const { user, setUser } = useUser()
-  const { role, setRole } = useRole()
+  const { setRole } = useRole()
 
   useEffect(() => {
     if (!user) {
@@ -30,12 +30,9 @@ function Layout(props: any) {
     });
     const data = await response.json();
     if (data.status === successStatus) {
-      console.log("User", data)
       setUser(data)
       if (publicRoutes.includes(Router.pathname)) {
         Router.push("/home")
-
-
       }
     }
     else
@@ -53,8 +50,6 @@ function Layout(props: any) {
       headers: headers
     });
     const data = await response.json();
-
-    console.log("Roles", data)
     setRole(data)
   }
 

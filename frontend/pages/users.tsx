@@ -8,12 +8,14 @@ function Users(props: any) {
 
   const { user } = useUser()
   const { role } = useRole()
-  const name = role?.roles[0]?.name;
-  console.log("name", name)
+  let name: any = [];
+  role?.roles?.map((role: any) => {
+    name.push(role?.name);
+  })
   const { data } = useQuery('Users', getUsers)
   return (
     <>
-      {user && name === "Admin" ? < UsersPage users={data} /> : <h1>Unauthorized</h1>}
+      {user ? < UsersPage users={data} role={name} user={user} /> : <h1>Loding...</h1>}
     </>
   )
 }

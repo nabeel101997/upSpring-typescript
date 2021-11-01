@@ -3,7 +3,6 @@ import { toast } from 'react-toastify';
 import Card from '../ui/Card';
 import { Formik, Form } from 'formik';
 import { userLogin } from '../../queries';
-import { useRouter } from 'next/router';
 import classes from './LoginForm.module.css';
 import * as Yup from 'yup';
 import { TextField } from './TextField';
@@ -16,7 +15,6 @@ function LoginForm() {
     email: string;
     password: string
   }
-  const router = useRouter();
 
   const initialValues = {
     email: '',
@@ -26,11 +24,9 @@ function LoginForm() {
   const mutation = useMutation((newLogin: LoginData) => userLogin(newLogin), { mutationKey: "login" });
   const { data, isLoading, isError, error, isSuccess } = mutation;
   toast(data?.message);
-  // toast(isLoading ? "Loading" : " ");
   if (data?.status === 200) {
     window.localStorage.setItem("accessToken", data?.accessToken);
-    router.push('/home');
-    router.reload();
+    window.location.assign('/home');
   }
 
   function submitHandler(values: LoginData) {
@@ -68,7 +64,7 @@ function LoginForm() {
               <TextField type="password" name="password" />
             </div>
             <div className={classes.actions}>
-              <button disabled={!formik.isValid}>Login</button>
+              <button type="submit" disabled={!formik.isValid}>Login</button>
             </div>
             <div className={classes.display}>
               <h4 className={classes.h4}>Dont have an Account?</h4>

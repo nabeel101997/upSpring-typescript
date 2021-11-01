@@ -42,7 +42,7 @@ export const getUsers = async () => {
     'Content-type': 'application/json',
     'token': 'Bearer ' + token
   }
-  const response = await fetch('http://localhost:8080/users', {
+  const response = await fetch('http://localhost:8080/assign/all', {
     method: 'GET',
     headers: headers
   });

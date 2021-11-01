@@ -27,7 +27,6 @@ interface Props {
 export const UserProvider: FC<Props> = ({ children, initialUser, initialRole }) => {
   const [user, setUser] = useState(initialUser)
   const [role, setRole] = useState(initialRole)
-  // console.log("Roles from context", role?.roles[0]?.name)
 
   return <UserContextImpl.Provider value={{ user, setUser, role, setRole }}>{children}</UserContextImpl.Provider>
 }

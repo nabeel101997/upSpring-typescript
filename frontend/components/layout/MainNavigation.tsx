@@ -37,7 +37,7 @@ const MainNavigation = (props: any) => {
           {user && (
             <>
               <li>
-                <a href='/dashboard'>Dashboard</a>
+                <a href='/home'>Dashboard</a>
               </li>
               <li>
                 <a href='/users'>users</a>

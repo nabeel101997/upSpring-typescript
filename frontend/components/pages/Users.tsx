@@ -5,13 +5,12 @@ import swal from 'sweetalert';
 
 function Dashboard(props: any) {
   const data = props.users;
+
   console.log(data);
   const queryClient = useQueryClient();
   function editHandler(record: any) {
-    props.editRecod({
-      id: record._id,
-      name: record.name,
-    });
+    console.log("Record", record)
+
   }
 
   async function deleteHandler(record: any) {
@@ -24,7 +23,7 @@ function Dashboard(props: any) {
       .then(async (willDelete) => {
         { isError && <div>An error occurred: {error}</div> }
         if (willDelete) {
-          const response = await fetch('/api/delete-record', {
+          const response = await fetch(`http://localhost:8080/users/${record.id}`, {
             method: 'DELETE',
             body: JSON.stringify(record),
             headers: {
@@ -58,14 +57,21 @@ function Dashboard(props: any) {
           </tr>
         </thead>
         <tbody>
-          {props?.users?.users.map((record: any) => (
-            <tr key={record._id}>
-              <td className={classes.td}>{record.name}</td>
-              <td className={classes.td}>{record.role}</td>
-              <td className={classes.td}>{record.permissions}</td>
+          {props?.users?.map((record: any) => (
+            <tr key={record.id}>
+              <td className={classes.td}>{record.firstName}</td>
+              <td className={classes.td}>{record.roles.map((role: any) => role.name)}</td>
+              <td className={classes.td}>{record.roles.map((role: any) => role.permissions.map((permission: any) => permission.map((obj: any) => obj.name + " ")))}</td>
               <td className={classes.td}>
-                <button className={classes.button} onClick={() => editHandler(record)}>Edit</button>
-                <button className={classes.button} onClick={() => mutation.mutate(record)}>Delete</button>
+                {props?.role.includes("Admin") ?
+                  <>
+                    <button className={classes.button} onClick={() => editHandler(record)}>Edit</button>
+                    {props.user.data.id === record.id ? <></> :
+                      <button className={classes.button} onClick={() => mutation.mutate(record)}>Delete</button>
+                    }
+
+                  </> : <></>
+                }
               </td>
             </tr>
           ))}
