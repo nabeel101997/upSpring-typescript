@@ -48,7 +48,10 @@ function LoginForm() {
       <Formik
         initialValues={initialValues}
         validationSchema={validate}
-        onSubmit={(values) => submitHandler(values)}
+        onSubmit={(values, formikHelpers) => {
+          formikHelpers.resetForm();
+          submitHandler(values)
+        }}
         enableReinitialize
         validateOnMount
       >

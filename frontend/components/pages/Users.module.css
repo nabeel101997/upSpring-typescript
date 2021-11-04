@@ -65,6 +65,15 @@
   background-color: #a10f47;
 }
 
+.tt {
+  border          : 1px solid #ffffff;
+  text-align      : left;
+  padding         : 8px;
+  font-size       : 32px;
+  color           : white;
+  background-color: #a10f47;
+}
+
 .th {
   color           : white;
   background-color: #77002e;

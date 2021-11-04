@@ -1,16 +1,17 @@
 import { useQueryClient, useMutation } from 'react-query';
 import classes from './Users.module.css';
 import swal from 'sweetalert';
+import router from 'next/router';
 
 
 function Dashboard(props: any) {
-  const data = props.users;
 
-  console.log(data);
+  console.log("Props", props)
   const queryClient = useQueryClient();
+
   function editHandler(record: any) {
     console.log("Record", record)
-
+    router.push('/edit/' + record.id);
   }
 
   async function deleteHandler(record: any) {
@@ -60,17 +61,30 @@ function Dashboard(props: any) {
           {props?.users?.map((record: any) => (
             <tr key={record.id}>
               <td className={classes.td}>{record.firstName}</td>
-              <td className={classes.td}>{record.roles.map((role: any) => role.name)}</td>
-              <td className={classes.td}>{record.roles.map((role: any) => role.permissions.map((permission: any) => permission.map((obj: any) => obj.name + " ")))}</td>
               <td className={classes.td}>
-                {props?.role.includes("Admin") ?
+                {record.roles.map((role: any) => (
+                  <tr key={role.id}>
+                    <td className={classes.td}>{role.name}</td>
+                  </tr>
+                ))}
+              </td>
+              <td className={classes.tt}>
+                {record.roles.map((role: any) => (
+                  <tr key={role.permissions.id}>
+                    <td className={classes.td}>{role.permissions.map((permission: any) => permission.name + " ")}</td>
+                  </tr>
+                ))}
+              </td>
+              <td className={classes.td}>
+                {props?.permissions.includes("Edit User") ?
+                  <button className={classes.button} onClick={() => editHandler(record)}>Edit</button> : <></>
+                }
+                {props.user.data.id === record.id ? <></> :
                   <>
-                    <button className={classes.button} onClick={() => editHandler(record)}>Edit</button>
-                    {props.user.data.id === record.id ? <></> :
-                      <button className={classes.button} onClick={() => mutation.mutate(record)}>Delete</button>
+                    {props?.permissions.includes("Delete User") ?
+                      <button className={classes.button} onClick={() => mutation.mutate(record)}>Delete</button> : <></>
                     }
-
-                  </> : <></>
+                  </>
                 }
               </td>
             </tr>
