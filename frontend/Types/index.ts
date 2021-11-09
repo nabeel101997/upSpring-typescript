@@ -4,7 +4,7 @@ type User = {
   lastName: string
 }
 export type RolesDoc = {
-  
+
 }
 
 export type Permissions = {
@@ -27,6 +27,13 @@ type Users = {
   roles: [Role]
 }
 
+type RoleObject = {
+  _id: string,
+  name: string,
+  createdAt: string,
+  updatedAt: string
+}
+
 export interface UserDocument {
   user: User
 }
@@ -39,4 +46,15 @@ export interface RolesDocument {
 
 export interface AllUsers {
   users: [Users]
+}
+
+export interface AllRolesDocument {
+  status: number,
+  message: string,
+  data: object,
+  users: [RoleObject]
+}
+
+export interface Tags{
+  
 }
